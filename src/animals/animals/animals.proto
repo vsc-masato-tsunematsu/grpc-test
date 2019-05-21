@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package animals;
+
+service Cat {
+  rpc GetMyCat (GetMyCatRequest) returns (MyCatResponse) {}
+}
+
+message GetMyCatRequest {
+  string name = 1;
+}
+
+message MyCatResponse {
+  string message = 1;
+}

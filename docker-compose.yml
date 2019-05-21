@@ -1,0 +1,28 @@
+version: "3"
+services:
+  protoc:
+    image: grpc/go
+    volumes:
+      - ./src/animals:/go/src/animals
+    working_dir: /go/src/animals
+    command: protoc -I animals/ animals/animals.proto --go_out=plugins=grpc:animals
+  server:
+    build: .
+    volumes:
+      - ./src/animals:/go/src/animals
+    working_dir: /go/src/animals
+    command: go run server/main.go
+    networks:
+      - default
+    ports:
+      - 50051:50051
+  client:
+    build: .
+    volumes:
+      - ./src/animals:/go/src/animals
+    working_dir: /go/src/animals
+    # command: go run client/main.go
+    entrypoint:
+      - go
+      - run
+      - client/main.go
